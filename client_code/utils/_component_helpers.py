@@ -13,7 +13,7 @@ from anvil.js import get_dom_node as _get_dom_node
 from anvil.js.window import Promise as _Promise
 from anvil.js.window import document as _document
 
-__version__ = "2.1.0"
+__version__ = "2.1.1"
 
 _characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
@@ -135,3 +135,10 @@ def walk(component_or_components):
     if isinstance(component_or_components, _Component):
         component_or_components = [component_or_components]
     yield from _walker(component_or_components)
+
+
+def _css_length(v):
+    try:
+        return f"{float(v)}px"
+    except (TypeError, ValueError):
+        return v

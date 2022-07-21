@@ -19,14 +19,13 @@ from ..utils._component_helpers import (
 )
 from ._anvil_designer import TabsTemplate
 
-__version__ = "2.1.0"
+__version__ = "2.1.1"
 
 _html_injector.css(
     """
 .anvil-extras-tabs.anvil-role-card {
     border-bottom-left-radius: 0px;
     border-bottom-right-radius: 0px;
-    margin-bottom: -1px;
 }
 .tabs {
     position: relative;

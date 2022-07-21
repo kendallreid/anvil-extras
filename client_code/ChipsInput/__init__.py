@@ -7,12 +7,13 @@
 
 from anvil import HtmlPanel as _HtmlPanel
 from anvil.js import get_dom_node as _get_dom_node
+from anvil.js.window import navigator
 
 from ..Chip import Chip
 from ..utils._component_helpers import _get_color, _html_injector, _spacing_property
 from ._anvil_designer import ChipsInputTemplate
 
-__version__ = "2.1.0"
+__version__ = "2.1.1"
 
 _primary = _get_color(None)
 
@@ -46,6 +47,9 @@ _defaults = {
     "spacing_above": "small",
     "spacing_below": "small",
 }
+
+
+is_android = "Android" in navigator.userAgent
 
 
 class ChipsInput(ChipsInputTemplate):
@@ -174,6 +178,11 @@ class ChipsInput(ChipsInputTemplate):
                 self._reset_deleting(False)
                 if js_event.key == "Tab":
                     js_event.preventDefault()
+
+            elif is_android and js_event.key == "Tab":
+                js_event.preventDefault()
+                self._chip_input_pressed_enter()
+
         except IndexError:
             pass
 

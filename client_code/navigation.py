@@ -6,7 +6,7 @@
 # This software is published at https://github.com/anvilistas/anvil-extras
 from anvil import Label, Link, get_open_form, set_url_hash
 
-__version__ = "2.1.0"
+__version__ = "2.1.1"
 
 # A dict mapping a form's name to a further dict with the form's class and title
 _forms = {}
@@ -15,8 +15,9 @@ _forms = {}
 _links = []
 
 # A dict mapping an event name to list of dicts.
-# Each of those dicts has keys "link" and "visible" with values of a link instance and boolean respectively.
-# The boolean is used to set the 'visible' property of the link when the event is raised.
+# Each of those dicts has keys "link" and "visible" with values of a link instance
+# and boolean respectively. The boolean is used to set the 'visible' property of the
+# link when the event is raised.
 _visibility = {}
 
 _title_label = Label()
@@ -42,10 +43,14 @@ def get_form(name, *args, **kwargs):
         raise KeyError(f"No form registered under name: {name}")
 
 
+def set_title(text):
+    _title_label.text = text
+
+
 def open_form(form_name, full_width=False):
     """Use classic routing to open a registered form"""
     form = get_form(form_name)
-    _title_label.text = _forms[form_name]["title"]
+    set_title(_forms[form_name]["title"])
     get_open_form().content_panel.clear()
     get_open_form().content_panel.add_component(form, full_width_row=full_width)
 
@@ -60,16 +65,25 @@ def go_to(target):
     link.raise_event("click")
 
 
+def _reset_links():
+    for link in _links:
+        if isinstance(link.role, str):
+            link.role = [link.role]
+        try:
+            link.role = [r for r in link.role if r != "selected"]
+        except TypeError:
+            link.role = []
+
+
 def _default_link_click(**event_args):
     """A handler for navigation link click events
     * Clears the role of all links registered in this module
     * Set the calling link's role to 'selected'
     * Calls the relevant action for classic or hash routing
     """
-    for link in _links:
-        link.role = ""
+    _reset_links()
     link = event_args["sender"]
-    link.role = "selected"
+    link.role += ["selected"]
     actions = {"classic": open_form, "hash": set_url_hash}
     kwargs = {}
     if link.tag.routing == "classic":

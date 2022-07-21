@@ -16,7 +16,7 @@ from anvil.js.window import window as _window
 from ..utils._component_helpers import _html_injector
 from ._anvil_designer import AutocompleteTemplate
 
-__version__ = "2.1.0"
+__version__ = "2.1.1"
 
 
 _html_injector.css(
@@ -167,7 +167,7 @@ class Autocomplete(AutocompleteTemplate):
 
     ###### INTERNAL EVENTS ######
     def _on_keydown(self, e):
-        key = e.key
+        key = getattr(e, "key", None)
         if key in ("ArrowDown", "ArrowUp"):
             e.preventDefault()
         elif key == "Enter":

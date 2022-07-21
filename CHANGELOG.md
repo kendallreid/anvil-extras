@@ -1,21 +1,30 @@
-# Unreleased
+# v2.1.1 22-Jun-2022
 
 ## Minor changes
 * `augment` ensure that `"mouseenter"` is always correct event type in `"hover"` events
   https://github.com/anvilistas/anvil-extras/discussions/319
 * `augment` adjust handling of RadioButton to work correctly with the augment module
   https://github.com/anvilistas/anvil-extras/pull/325
+* `routing` - to catch arbirtrary query params in a route use `url_keys=[routing.ANY]`
+  https://github.com/anvilistas/anvil-extras/issues/342
 
 ## Bug fixes
 * `augment` - DataGrid's pagination click event prevented other events from being added
   https://github.com/anvilistas/anvil-extras/pull/325
 * `MultiSelectDropDown` - all properties are now dynamic and can be updated in code
   https://github.com/anvilistas/anvil-extras/pull/331
-
-
-## Bug Fixes
+* `serialisation` - support accelerated tables with linked columns
+  https://github.com/anvilistas/anvil-extras/issues/350
+* `navigation` - Now handles links with roles defined when setting 'selected'
+  https://github.com/anvilistas/anvil-extras/issues/352
 * `popovers` fix bug scrolling on mobile
   https://github.com/anvilistas/anvil-extras/discussions/324
+
+## New Features
+* `MultiSelectDropDown`: add `width` property with options for `fit` and `auto` sizing
+  https://github.com/anvilistas/anvil-extras/issues/329
+* `navigation` - new `set_title` function for custom click handlers
+  https://github.com/anvilistas/anvil-extras/issues/358
 
 # v2.1.0 20-Apr-2022
 

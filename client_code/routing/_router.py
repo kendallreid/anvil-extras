@@ -13,9 +13,9 @@ from anvil.js.window import document
 
 from ._alert import handle_alert_unload as _handle_alert_unload
 from ._logging import logger
-from ._utils import TemplateInfo, get_url_components
+from ._utils import ANY, TemplateInfo, get_url_components
 
-__version__ = "2.1.0"
+__version__ = "2.1.1"
 
 
 class NavigationExit(Exception):
@@ -324,7 +324,15 @@ def path_matcher(template_info, init_path, url_hash, url_pattern, url_dict):
             elif url_part != given:
                 break
         else:  # no break
-            if set(url_dict) == route_info.url_keys:
+            # rely on dict.keys() being set like
+            url_keys = url_dict.keys()
+            route_keys = route_info.url_keys
+            if url_keys == route_keys:
+                return route_info, dynamic_vars
+            if ANY not in route_keys:
+                continue
+            route_keys -= {ANY}  # route_keys is a frozen set
+            if route_keys.issubset(url_keys):
                 return route_info, dynamic_vars
 
     logger.debug(
