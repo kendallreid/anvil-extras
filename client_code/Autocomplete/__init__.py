@@ -16,7 +16,7 @@ from anvil.js.window import window as _window
 from ..utils._component_helpers import _html_injector
 from ._anvil_designer import AutocompleteTemplate
 
-__version__ = "2.1.1"
+__version__ = "2.1.4"
 
 
 _html_injector.css(
@@ -218,7 +218,7 @@ class Autocomplete(AutocompleteTemplate):
 
     def _on_hide(self, **e_args):
         """This method is called when the TextBox is removed from the screen"""
-        _document.body.removeChild(self._lp_node)
+        self._lp_node.remove()
         _S(_window).off("resize", self._reset_position)
 
     def _mk_popover(self, init_node, **event_args):
@@ -241,3 +241,4 @@ class Autocomplete(AutocompleteTemplate):
     foreground = _TextBox.foreground
     background = _TextBox.background
     visible = _TextBox.visible
+    tag = _TextBox.tag

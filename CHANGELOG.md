@@ -1,3 +1,47 @@
+# Unreleased
+* add `tag` property to custom components
+  https://anvil.works/forum/t/chip-tag-initialization/15461
+
+## Bug Fixes
+* `navigation` - Add args and kwargs to `open_form`
+  https://github.com/anvilistas/anvil-extras/pull/393
+* `storage` - fix serialisation of dictionary values
+  https://github.com/anvilistas/anvil-extras/pull/395
+
+
+# v2.1.4 01-Dec-2022
+## Bug Fixes
+* `routing` - fix `routing.ANY` within `url_keys`
+  https://github.com/anvilistas/anvil-extras/pull/388
+
+## Deprecations
+
+* `anvil_extras.uuid` module can be replaced wholesale by uuid from stdlib
+  DeprecatedWarning added to `uuid.uuid4()`
+
+## Minor Changes
+* Some component properties adjusted to type enum so they can be selected, rather than typed, in the designer
+
+
+# v2.1.3 03-Nov-2022
+
+## Minor Changes
+* `uuid` and `storage` will check if `uuid` and `localforage` are aleady installed before importing them from cdn
+  https://github.com/anvilistas/anvil-extras/pull/381
+
+## Bug Fixes
+* `routing` - `form.url_dict` will be updated when `redirect=False`
+  https://github.com/anvilistas/anvil-extras/issues/374
+
+# v2.1.2 01-Sep-2022
+
+## Bug Fixes
+* `routing` - remove_from_cache will work across templates
+  https://github.com/anvilistas/anvil-extras/issues/367
+* `MultiSelectDropDown` - fix setting certain attributes dynamically cause events to stop firing
+  https://github.com/anvilistas/anvil-extras/issues/365
+
+
 # v2.1.1 22-Jun-2022
 
 ## Minor changes

@@ -11,7 +11,7 @@ from anvil import HtmlPanel as _HtmlPanel
 from ..utils._component_helpers import _get_color, _html_injector, _spacing_property
 from ._anvil_designer import SliderTemplate
 
-__version__ = "2.1.1"
+__version__ = "2.1.4"
 
 noui_version = "15.4.0"
 
@@ -415,6 +415,7 @@ class Slider(SliderTemplate):
     spacing_above = _spacing_property("above")
     spacing_below = _spacing_property("below")
     visible = _HtmlPanel.visible
+    tag = _HtmlPanel.tag
     role = _HtmlPanel.role
 
     ###### METHODS ######

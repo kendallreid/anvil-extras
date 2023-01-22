@@ -10,14 +10,17 @@ from datetime import date, datetime
 import anvil.js
 from anvil.js import window as _window
 
-__version__ = "2.1.1"
+__version__ = "2.1.4"
 __all__ = ["local_storage", "indexed_db"]
 
-_ForageModule = anvil.js.import_from(
-    "https://cdn.skypack.dev/pin/localforage@v1.10.0-vSTz1U7CF0tUryZh6xTs/mode=imports,min/optimized/localforage.js"
-)
+try:
+    _forage = _window.localforage
+except AttributeError:
+    _ForageModule = anvil.js.import_from(
+        "https://cdn.skypack.dev/pin/localforage@v1.10.0-vSTz1U7CF0tUryZh6xTs/mode=imports,min/optimized/localforage.js"
+    )
+    _forage = _ForageModule.default
 
-_forage = _ForageModule.default
 _forage.dropInstance()
 
 
@@ -43,7 +46,7 @@ def _serialize(obj):
     elif ob_type in (list, tuple):
         return [_serialize(item) for item in obj]
     elif ob_type is dict:
-        return {key: val for key, val in obj.items() if _is_str(key)}
+        return {key: _serialize(val) for key, val in obj.items() if _is_str(key)}
     elif ob_type is datetime:
         return {_SPECIAL + "datetime": obj.isoformat()}
     elif ob_type is date:

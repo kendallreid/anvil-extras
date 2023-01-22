@@ -15,7 +15,7 @@ from ._alert import handle_alert_unload as _handle_alert_unload
 from ._logging import logger
 from ._utils import ANY, TemplateInfo, get_url_components
 
-__version__ = "2.1.1"
+__version__ = "2.1.4"
 
 
 class NavigationExit(Exception):
@@ -344,6 +344,7 @@ def path_matcher(template_info, init_path, url_hash, url_pattern, url_dict):
 
 
 def update_form_attrs(form):
+    # TODO we should probably upate dynamic_vars as well
     url_hash, url_pattern, url_dict = get_url_components()
     # reapply these before the show event
     form.url_hash = url_hash

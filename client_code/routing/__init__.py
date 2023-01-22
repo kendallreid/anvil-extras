@@ -5,7 +5,7 @@
 #
 # This software is published at https://github.com/anvilistas/anvil-extras
 
-__version__ = "2.1.1"
+__version__ = "2.1.4"
 
 from anvil.js import window as _w
 
@@ -84,8 +84,11 @@ def remove_from_cache(url_hash=None, *, url_pattern=None, url_dict=None):
         url_hash, url_pattern=url_pattern, url_dict=url_dict
     )[0]
     logger.debug(f"removing {url_hash!r} from cache")
-    cached = _r._cache.pop(url_hash, None)
-    if cached is None:
+    to_remove = [key for key in _r._cache if type(key) is tuple and key[0] == url_hash]
+    for key in to_remove:
+        _r._cache.pop(key, None)
+
+    if not to_remove:
         msg = f"*warning* {url_hash!r} was not found in cache - maybe the form was yet to load"
         logger.debug(msg)
 
@@ -163,6 +166,7 @@ def set_url_hash(
         return  # should not continue if url_hash is identical to the addressbar hash!
         # but do continue if the url_hash is not in the cache i.e it was manually removed
 
+    msg = ""
     if set_in_history and not replace_current_url:
         msg = f"setting url_hash to: '#{url_hash}', adding to top of history stack"
         _navigation.pushState(url_hash)
@@ -176,10 +180,17 @@ def set_url_hash(
 
     if redirect:
         return _r.navigate(url_hash, url_pattern, url_dict, **properties)
-    if set_in_history and _r._current_form is not None:
-        _r._cache[url_hash] = _r._current_form
-        # no need to add to cache if not being set in history
+
     logger.debug("navigation not triggered, redirect=False")
+
+    form = _r._current_form
+    if form is None:
+        return
+
+    if set_in_history:
+        # no need to add to cache if not being set in history
+        _r._cache[url_hash] = form
+    _r.update_form_attrs(form)
 
 
 def load_form(*args, **kws):
