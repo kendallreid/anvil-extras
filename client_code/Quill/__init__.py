@@ -14,7 +14,7 @@ from anvil.js import window as _window
 from ..utils._component_helpers import _html_injector, _spacing_property
 from ._anvil_designer import QuillTemplate
 
-__version__ = "2.1.1"
+__version__ = "2.1.4"
 
 # <!-- Theme included stylesheets -->
 prefix = "//cdn.quilljs.com/"
@@ -184,6 +184,7 @@ class Quill(QuillTemplate):
     spacing_above = _spacing_property("above")
     spacing_below = _spacing_property("below")
     visible = _HtmlPanel.visible
+    tag = _HtmlPanel.tag
 
     #### QUILL INIT PROPS ####
     toolbar = _quill_init_prop("toolbar")

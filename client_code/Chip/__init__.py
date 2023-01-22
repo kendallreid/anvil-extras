@@ -11,7 +11,7 @@ from anvil.js import get_dom_node as _get_dom_node
 from ..utils._component_helpers import _html_injector, _spacing_property
 from ._anvil_designer import ChipTemplate
 
-__version__ = "2.1.1"
+__version__ = "2.1.4"
 
 _html_injector.css(
     """.anvil-extras-chip{
@@ -110,5 +110,6 @@ class Chip(ChipTemplate):
 
     background = _HtmlPanel.background
     visible = _HtmlPanel.visible
+    tag = _HtmlPanel.tag
     spacing_above = _spacing_property("above")
     spacing_below = _spacing_property("below")

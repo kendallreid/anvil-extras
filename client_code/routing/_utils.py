@@ -12,7 +12,7 @@ from anvil.js.window import location
 
 from ._logging import logger
 
-__version__ = "2.1.1"
+__version__ = "2.1.4"
 
 
 ANY = object()
@@ -109,7 +109,7 @@ def _as_frozen_str_iterable(obj, attr, allow_none=False, factory=frozenset):
         return factory([obj])
     rv = []
     for o in obj:
-        if not isinstance(o, str) and obj is not ANY:
+        if not isinstance(o, str) and o is not ANY:
             msg = f"expected an iterable of strings or a string for {attr} argument"
             raise TypeError(msg)
         rv.append(o)

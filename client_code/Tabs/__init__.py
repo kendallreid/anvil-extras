@@ -19,7 +19,7 @@ from ..utils._component_helpers import (
 )
 from ._anvil_designer import TabsTemplate
 
-__version__ = "2.1.1"
+__version__ = "2.1.4"
 
 _html_injector.css(
     """
@@ -232,5 +232,6 @@ class Tabs(TabsTemplate):
 
     role = _HtmlPanel.role
     visible = _HtmlPanel.visible
+    tag = _HtmlPanel.tag
     spacing_above = _spacing_property("above")
     spacing_below = _spacing_property("below")

@@ -14,7 +14,7 @@ from anvil.js.window import jQuery as _S
 from ..utils._component_helpers import _css_length, _html_injector, _spacing_property
 from ._anvil_designer import MultiSelectDropDownTemplate
 
-__version__ = "2.1.1"
+__version__ = "2.1.4"
 
 _html_injector.script(
     """
@@ -34,11 +34,13 @@ bs_select_version = "1.13.18"
 prefix = "https://cdn.jsdelivr.net/npm/bootstrap-select@"
 suffix = "/dist/js/bootstrap-select.min"
 
-_html_injector.cdn(f"{prefix}{bs_select_version}/dist/js/bootstrap-select.min.js")
-_html_injector.cdn(f"{prefix}{bs_select_version}/dist/css/bootstrap-select.min.css")
+try:
+    _S.fn.selectpicker.Constructor.BootstrapVersion = "3"
+except AttributeError:
+    _html_injector.cdn(f"{prefix}{bs_select_version}/dist/js/bootstrap-select.min.js")
+    _html_injector.cdn(f"{prefix}{bs_select_version}/dist/css/bootstrap-select.min.css")
+    _S.fn.selectpicker.Constructor.BootstrapVersion = "3"
 
-
-_S.fn.selectpicker.Constructor.BootstrapVersion = "3"
 
 # because select all buttons don't distinguish between user and code changes
 _Function(
@@ -102,7 +104,7 @@ def _component_property(prop, jquery, fn=None):
 
         if self._init:
             self._el.selectpicker("destroy")
-            self._el.selectpicker()
+            self._reset()
 
     return _props_property(prop, setter)
 
@@ -128,17 +130,20 @@ class MultiSelectDropDown(MultiSelectDropDownTemplate):
 
         self.init_components(**props)
 
+        self.set_event_handler("x-popover-init", self._mk_popover)
+        self._user_selected_all(False)
+        self._reset()
+        if selected:
+            self.selected = selected
+        self._init = True
+
+    def _reset(self):
         self._el.selectpicker()
         self._el.on("changed.bs.select", self.change)
         self._el.on("shown.bs.select", self._opened)
         self._el.on("hidden.bs.select", self._closed)
-        self.set_event_handler("x-popover-init", self._mk_popover)
-        if selected:
-            self.selected = selected
-        self._user_selected_all(False)
         menu = self._el.data("selectpicker")["$menu"]
         menu.find(".bs-actionsbox").on("click", self._user_selected_all)
-        self._init = True
 
     ##### PROPERTIES #####
     align = _props_property(
@@ -198,6 +203,7 @@ class MultiSelectDropDown(MultiSelectDropDownTemplate):
     enable_filtering = _component_property("enable_filtering", "data-live-search")
     enabled = _component_property("enabled", "disabled", lambda v: not v)
     enable_select_all = _component_property("enable_select_all", "data-actions-box")
+    tag = _HtmlPanel.tag
 
     @property
     def visible(self):

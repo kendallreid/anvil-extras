@@ -6,7 +6,7 @@
 # This software is published at https://github.com/anvilistas/anvil-extras
 from anvil import Label, Link, get_open_form, set_url_hash
 
-__version__ = "2.1.1"
+__version__ = "2.1.4"
 
 # A dict mapping a form's name to a further dict with the form's class and title
 _forms = {}
@@ -47,9 +47,9 @@ def set_title(text):
     _title_label.text = text
 
 
-def open_form(form_name, full_width=False):
+def open_form(form_name, *args, full_width=False, **kwargs):
     """Use classic routing to open a registered form"""
-    form = get_form(form_name)
+    form = get_form(form_name, *args, **kwargs)
     set_title(_forms[form_name]["title"])
     get_open_form().content_panel.clear()
     get_open_form().content_panel.add_component(form, full_width_row=full_width)
